@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<html>
+<head>
+    <title>OneBox</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <table border="0" cellpadding="10">
+        <tr>
+            <td>
+                <h1>Welcome to OneBox</h1>
+            </td>
+        </tr>
+    </table>
+
+    <p>This is the home page for OneBox.</p>
+    <p>There will be much more coming soon!</p>
+    <p>Here  is a link to the account page:</p>
+    <ul>
+        <li>@Html.ActionLink("File List", "FileList", "Home")
+    </ul>
+
+</body>
+</html>

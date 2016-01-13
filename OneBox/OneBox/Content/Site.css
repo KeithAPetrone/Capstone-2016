@@ -1,0 +1,9 @@
+﻿body {
+    background-color: cyan;
+    font-family: fantasy;
+}
+ 
+.navbar-header {
+    font-size: 42px;
+    font-style: oblique;
+}
