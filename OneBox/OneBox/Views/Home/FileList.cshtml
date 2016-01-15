@@ -21,13 +21,29 @@
     <p>This is the file list page!</p><br/><br />
     
     @{ 
-        GoogleDriveDownloader g = null;
+        GoogleDriveDownloader g = new GoogleDriveDownloader();
     }
 
-    <br /><br /><p>Here  is a link to the home page:</p>
-    <ul>
-        <li>@Html.ActionLink("Home", "Index", "Home")
-    </ul>
+    <br /><br /><p>Your files:</p>
+    @{ 
+        List<Google.Apis.Drive.v2.Data.File> fileList = g.Download();
+        for (int i = 0; i < 10; i++)
+        {
+            <ul>
+                <li>
+                    <p>@fileList.ElementAt(i).Title</p>
+                    @{ 
+                        if (@fileList.ElementAt(i).Title.Contains("jpg") || @fileList.ElementAt(i).Title.Contains("jpeg"))
+                        {
+                            <img src="@fileList.ElementAt(i).ThumbnailLink"/>
+                        }
+                    }
+                    <br />
+                    <a href="@fileList.ElementAt(i).AlternateLink">Download here!</a>
+                </li>
+            </ul>
+                        }
+    }
 
 </body>
 </html>

@@ -12,12 +12,12 @@ using System.Xml.Serialization;
 
     public class GoogleDriveDownloader
     {
-        static void Main(string[] args)
+        public GoogleDriveDownloader()
         {
-            QuickStart();
+            
         }
 
-        private static void QuickStart()
+        public List<File> Download()
         {
             UserCredential credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                 new ClientSecrets
@@ -41,8 +41,8 @@ using System.Xml.Serialization;
             body.Description = "A test document";
             body.MimeType = "text/plain";
 
-            byte[] byteArray = System.IO.File.ReadAllBytes("../../document.txt");
-            System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
+            //byte[] byteArray = System.IO.File.ReadAllBytes("document.txt");
+            //System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
 
             FilesResource.ListRequest listRequest = service.Files.List();
             FileList files = listRequest.Execute();
@@ -50,24 +50,26 @@ using System.Xml.Serialization;
             daFiles = daFiles.Where(x => x.Shared == false && x.Shared != null).ToList();
             Console.WriteLine("Percentage Complete:\n0%");
             long? totalDownloadSize = 0;
-            double currentPercent = 0;
-            foreach (var item in daFiles)
+            //double currentPercent = 0;
+            List<File> returnFiles = new List<File>();
+            for (int i = 0; i < 10; i++)
             {
-                totalDownloadSize += item.FileSize;
+                totalDownloadSize += daFiles.ElementAt(i).FileSize;
+                returnFiles.Add(daFiles.ElementAt(i));
             }
-            foreach (var item in daFiles)
-            {
-                currentPercent += Convert.ToDouble((double)item.FileSize / (double)totalDownloadSize);
-                var v = service.HttpClient.GetStreamAsync(item.DownloadUrl);
-                var result = v.Result;
-                string path = "..//..//files//" + item.Title;
-                using (var fileStream = System.IO.File.Create(path))
-                {
-                    result.CopyTo(fileStream);
-                }
-                Console.WriteLine((int)(currentPercent * 100) + "%");
-            }
+            //foreach (var item in daFiles)
+            //{
+                //currentPercent += Convert.ToDouble((double)item.FileSize / (double)totalDownloadSize);
+                //var v = service.HttpClient.GetStreamAsync(item.DownloadUrl);
+                //var result = v.Result;
+                //string path = "..//..//files//" + item.Title;
+                //using (var fileStream = System.IO.File.Create(path))
+                //{
+                //    result.CopyTo(fileStream);
+                //}
+                //Console.WriteLine((int)(currentPercent * 100) + "%");
+            //}
             Console.WriteLine("Done!!!");
-            Console.ReadLine();
+        return returnFiles;
         }
     }
