@@ -3,7 +3,6 @@
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
-
 <html>
 <head>
     <title>File List</title>
@@ -22,11 +21,25 @@
     
     @{ 
         GoogleDriveDownloader g = new GoogleDriveDownloader();
+        DropBoxDownloader d = new DropBoxDownloader();
+        d.DropBoxAuthenticate();
     }
+    <p>Add files with this:</p>
+    
+    
+    @*<form action="" method="post" enctype="multipart/form-data">
 
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="file" />
+
+        <input type="submit" />
+    </form>*@
+
+
+    <br /><br />
     <br /><br /><p>Your files:</p>
     @{ 
-        List<Google.Apis.Drive.v2.Data.File> fileList = g.Download();
+        IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = g.Download();
         for (int i = 0; i < 10; i++)
         {
             <ul>
@@ -42,7 +55,7 @@
                     <a href="@fileList.ElementAt(i).AlternateLink">Download here!</a>
                 </li>
             </ul>
-                        }
+        }
     }
 
 </body>

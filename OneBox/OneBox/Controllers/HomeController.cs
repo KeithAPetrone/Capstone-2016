@@ -30,8 +30,14 @@ namespace OneBox.Controllers
         public ActionResult FileList()
         {
             ViewBag.Message = "Your file list page.";
-
             return View();
         }
+
+        //[HttpPost]
+        //public ActionResult FileList(HttpPostedFileBase file)
+        //{ 
+        //    new GoogleDriveDownloader().Upload(file);
+        //    return View();
+        //}
     }
 }

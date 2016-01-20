@@ -234,3 +234,11 @@ C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\Microsoft.Ow
 C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\obj\Debug\OneBox.csprojResolveAssemblyReference.cache
 C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\obj\Debug\OneBox.dll
 C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\obj\Debug\OneBox.pdb
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.Core.dll
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.Client.dll
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.ClientAuthorization.dll
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.dll
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.Core.xml
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.xml
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.Client.xml
+C:\Users\Keith Petrone\Source\Repos\Capstone-2016\OneBox\OneBox\bin\DotNetOpenAuth.OAuth2.ClientAuthorization.xml
