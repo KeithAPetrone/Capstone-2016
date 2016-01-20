@@ -17,11 +17,6 @@ public class GoogleDriveDownloader
 
     public GoogleDriveDownloader()
     {
-        
-    }
-
-    public IEnumerable<File> Download()
-    {
         this.credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
             new ClientSecrets
             {
@@ -38,6 +33,16 @@ public class GoogleDriveDownloader
             HttpClientInitializer = credential,
             ApplicationName = "OneBox",
         });
+    }
+
+    public IEnumerable<File> Download()
+    {
+        // Create the service.
+        this.service = new DriveService(new BaseClientService.Initializer()
+        {
+            HttpClientInitializer = credential,
+            ApplicationName = "OneBox",
+        });
 
         // Request the files
         FilesResource.ListRequest listRequest = service.Files.List();
@@ -48,13 +53,10 @@ public class GoogleDriveDownloader
         return daFiles;
     }
 
-    public void Upload(File fileUpload)
+    public void Upload(File fileUpload, System.IO.MemoryStream stream, string mimeType)
     {
-        try
-        {
-            service.Files.Insert(fileUpload);
-        }       
-        catch (NullReferenceException e)
-        { }
+        FilesResource.InsertMediaUpload request = this.service.Files.Insert(fileUpload, stream, mimeType);
+        request.Upload();
+        stream.Close();
     }
 }

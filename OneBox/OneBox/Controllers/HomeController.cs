@@ -1,8 +1,14 @@
 ﻿using System;
+using Google.Apis.Drive.v2;
+using Google.Apis.Auth.OAuth2;
+using System.Threading;
+using Google.Apis.Util.Store;
+using Google.Apis.Services;
+using Google.Apis.Drive.v2.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Web;
+using System.IO;
 
 namespace OneBox.Controllers
 {
@@ -33,11 +39,35 @@ namespace OneBox.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult FileList(HttpPostedFileBase file)
-        //{ 
-        //    new GoogleDriveDownloader().Upload(file);
-        //    return View();
-        //}
+        [HttpPost]
+        public ActionResult FileList(HttpPostedFileBase file)
+        {
+            GoogleDriveDownloader g = new GoogleDriveDownloader();
+
+            var fileName = Path.GetFileName(file.FileName);
+            var path = "C:/TempFiles/" + fileName;
+            file.SaveAs(Path.Combine(@"C:/TempFiles", fileName));
+
+            Google.Apis.Drive.v2.Data.File body = new Google.Apis.Drive.v2.Data.File();
+            body.Title = System.IO.Path.GetFileName(path);
+            body.Description = "File uploaded OneBox";
+            body.MimeType = GetMimeType(fileName);
+
+            byte[] byteArray = System.IO.File.ReadAllBytes(path);
+            System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
+            g.Upload(body, stream, GetMimeType(fileName));
+
+            return View();
+        }
+
+        private static string GetMimeType(string fileName)
+        {
+            string mimeType = "application/unknown";
+            string ext = System.IO.Path.GetExtension(fileName).ToLower();
+            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+            if (regKey != null && regKey.GetValue("Content Type") != null)
+                mimeType = regKey.GetValue("Content Type").ToString();
+            return mimeType;
+        }
     }
 }
