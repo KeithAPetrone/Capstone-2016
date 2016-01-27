@@ -1,9 +1,25 @@
 ﻿body {
-    background-color: cyan;
+    background-color: #CCCCFF;
     font-family: fantasy;
 }
  
 .navbar-header {
     font-size: 42px;
     font-style: oblique;
+}
+
+nav {
+    background: url("Clouds.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: gold;
+}
+
+a:link, a:visited {
+    color: red;
+}
+
+.navbar-collapse collapse {
+    border:thick;
+    background-color:antiquewhite;
 }

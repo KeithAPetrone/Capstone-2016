@@ -36,11 +36,16 @@ namespace OneBox.Controllers
         public ActionResult FileList()
         {
             ViewBag.Message = "Your file list page.";
+            GoogleDriveDownloader g = new GoogleDriveDownloader();
+
+            IEnumerable<Google.Apis.Drive.v2.Data.File> results = g.Download();
+            TempData["Result"] = results;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult FileList(HttpPostedFileBase file)
+        public ActionResult Upload(HttpPostedFileBase file)
         {
             GoogleDriveDownloader g = new GoogleDriveDownloader();
 
@@ -56,6 +61,17 @@ namespace OneBox.Controllers
             byte[] byteArray = System.IO.File.ReadAllBytes(path);
             System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
             g.Upload(body, stream, GetMimeType(fileName));
+
+            return Redirect("FileList");
+        }
+
+        [HttpPost]
+        public ActionResult FileList(string search)
+        {
+            GoogleDriveDownloader g = new GoogleDriveDownloader();
+
+            IEnumerable<Google.Apis.Drive.v2.Data.File> results = g.Search(search);
+            TempData["Result"] = results;
 
             return View();
         }

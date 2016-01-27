@@ -11,6 +11,7 @@ using OAuth;
 
 public class DropBoxDownloader
 {
+    DropboxRestAPI.Client client = null;
 
     public DropBoxDownloader()
     {
@@ -21,6 +22,8 @@ public class DropBoxDownloader
     {
         var consumerKey = "vffs1vook3fyx5x";
         var consumerSecret = "7ecorboxscy56cr";
+
+        
 
         var uri = new Uri("https://api.dropbox.com/1/oauth/request_token");
 
@@ -60,5 +63,14 @@ public class DropBoxDownloader
         }
         catch (WebException e)
         { }
+    }
+
+    public void Download()
+    {
+        //var request = (HttpWebRequest)WebRequest.Create(requestUri);
+        //request.Method = WebRequestMethods.Http.Get;
+        //var response = request.GetResponse();
+
+        //return new List<DropboxRestAPI>();
     }
 }

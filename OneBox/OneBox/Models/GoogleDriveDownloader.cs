@@ -17,11 +17,12 @@ public class GoogleDriveDownloader
 
     public GoogleDriveDownloader()
     {
+        IEnumerable<string> lines = System.IO.File.ReadLines("C:\\Users\\Keith Petrone\\Documents\\Google.txt");
         this.credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
             new ClientSecrets
             {
-                ClientId = "320329124466-6krqbu5gkdr0d8tfv91plfn31no65l00.apps.googleusercontent.com",
-                ClientSecret = "qZ2oSBLR-NS3OK529S4UrTq4",
+                ClientId = lines.ElementAt(0),
+                ClientSecret = lines.ElementAt(1),
             },
             new[] { DriveService.Scope.Drive },
             "user",
@@ -37,19 +38,20 @@ public class GoogleDriveDownloader
 
     public IEnumerable<File> Download()
     {
-        // Create the service.
-        this.service = new DriveService(new BaseClientService.Initializer()
-        {
-            HttpClientInitializer = credential,
-            ApplicationName = "OneBox",
-        });
-
         // Request the files
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<File> daFiles = files.Items;
-        daFiles = daFiles.Where(x => x.Shared == false && x.Shared != null).ToList();
+        //daFiles = daFiles.Where(x => x.Shared == false && x.Shared != null).ToList();
+        return daFiles;
+    }
 
+    public IEnumerable<File> Search(string criteria)
+    {
+        FilesResource.ListRequest listRequest = service.Files.List();
+        FileList files = listRequest.Execute();
+        IEnumerable<File> daFiles = files.Items;
+        daFiles = daFiles.Where(x => x.Title.Contains(criteria)).ToList();
         return daFiles;
     }
 
@@ -58,5 +60,12 @@ public class GoogleDriveDownloader
         FilesResource.InsertMediaUpload request = this.service.Files.Insert(fileUpload, stream, mimeType);
         request.Upload();
         stream.Close();
+    }
+
+    public String Delete(String id)
+    {
+        service.Files.Delete(id).Execute();
+
+        return id;
     }
 }

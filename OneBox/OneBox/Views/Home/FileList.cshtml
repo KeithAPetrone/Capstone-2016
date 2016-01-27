@@ -19,44 +19,60 @@
 
     <p>This is the file list page!</p><br/><br />
     
-    @{ 
-        GoogleDriveDownloader g = new GoogleDriveDownloader();
+    @{
+        IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = (IEnumerable<Google.Apis.Drive.v2.Data.File>
+        )TempData["Result"];
         DropBoxDownloader d = new DropBoxDownloader();
         d.DropBoxAuthenticate();
-    }
-    <p>Add files with this:</p>
-    
-    
-    <form action="" method="post" enctype="multipart/form-data">
-
-        <label for="file">Filename:</label>
-        <input type="file" name="file" id="file" />
-
-        <input type="submit" />
-    </form>
-
-
-    <br /><br />
-    <br /><br /><p>Your files:</p>
-    @{ 
-        IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = g.Download();
-        for (int i = 0; i < 10; i++)
-        {
-            <ul>
-                <li>
-                    <p>@fileList.ElementAt(i).Title</p>
-                    @{ 
-                        if (@fileList.ElementAt(i).Title.Contains("jpg") || @fileList.ElementAt(i).Title.Contains("jpeg"))
-                        {
-                            <img src="@fileList.ElementAt(i).ThumbnailLink"/>
-                        }
-                    }
-                    <br />
-                    <a href="@fileList.ElementAt(i).AlternateLink">Download here!</a>
-                </li>
-            </ul>
         }
-    }
+        <p>Add files with this:</p>
 
+
+        <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
+
+            <label for="file">Filename:</label>
+            <input type="file" name="file" id="file" />
+
+            <input type="submit" />
+        </form>
+        <br />
+        <p>Search for files:</p>
+
+        <form action="" method="post" enctype="multipart/form-data">
+
+            <label for="file">Criteria:</label>
+            <input type="search" name="search" id="search" />
+
+            <input type="submit" />
+        </form>
+        <br />
+
+        <br /><br />
+        <br /><br /><p>Your files:</p>
+        <table border="1">
+            @{
+                for (int i = 0; i < fileList.Count(); i++)
+                {
+                    <tr>
+                        @{
+                            for (int j = 0; j < 5 && i < fileList.Count(); j++)
+                            {
+                                <td>
+                                    <p>@fileList.ElementAt(i).Title</p>
+                                    @{
+                                        <img src="@fileList.ElementAt(i).ThumbnailLink" />
+                                    }
+
+                                    <a href="@fileList.ElementAt(i).AlternateLink">Download here!</a>
+                                    @{
+                                        i++;
+                                    }
+                                </td>
+                                        }
+                        }
+                    </tr>
+                                        }
+            }
+        </table>
 </body>
 </html>
