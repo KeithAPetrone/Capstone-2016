@@ -22,7 +22,7 @@
     @{
         IEnumerable<Google.Apis.Drive.v2.Data.File> googleList = (IEnumerable<Google.Apis.Drive.v2.Data.File>)TempData["GoogleResult"];
         IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
-
+        DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
         }
         <p>Add files with this:</p>
 
@@ -48,6 +48,18 @@
 
         <br /><br />
         <br /><br /><p>Your Google Drive files:</p>
+
+    <p>Add files to Google Drive with this:</p>
+
+
+    <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
+
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="file" />
+
+        <input type="submit" />
+    </form>
+
         <table border="1">
             @{
                 for (int i = 0; i < googleList.Count(); i++)
@@ -84,6 +96,11 @@
                         {
                             <td>
                                 <p>@dropboxList.ElementAt(i).Name</p>
+                                <a href="" onclick="@{ var tempFile = @"C:\Users\OneBox\Downloads\"+dropboxList.ElementAt(i).Name;
+                                   using (var fileStream = System.IO.File.OpenWrite(tempFile))
+                                   {
+                                       d.client.Core.Metadata.FilesAsync(dropboxList.ElementAt(i).path, fileStream);
+                                   } }">Download here!</a>
                                 @{ i++; }
                             </td>
                         }

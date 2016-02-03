@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DropboxRestAPI;
 
@@ -7,7 +8,7 @@ public class DropBoxDownloader
     string consumerKey = "";
     string consumerSecret = "";
     string accessToken = "";
-    Client client;
+    public Client client;
 
     public DropBoxDownloader()
     {
@@ -27,9 +28,9 @@ public class DropBoxDownloader
         client = new Client(options);
     }
 
-    public List<DropboxRestAPI.Models.Core.MetaData> Download()
+    public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Download()
     {
-        List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
+        List<DropboxRestAPI.Models.Core.MetaData> results = new List<DropboxRestAPI.Models.Core.MetaData>();
 
         // Get the OAuth Request Url
         var authRequestUrl = client.Core.OAuth2.Authorize("code");
@@ -48,7 +49,46 @@ public class DropBoxDownloader
 
         for (int i = 0; i < rootFolder.Result.contents.Count(); i++)
         {
-
+            results.Add(rootFolder.Result.contents.ElementAt(i));
         }
+
+        results = FileGrabber(results, results);
+
+        IEnumerable<DropboxRestAPI.Models.Core.MetaData> done = results;
+
+        done = done.Where(x => x.is_dir == false);
+
+        return done;
+    }
+
+    private List<DropboxRestAPI.Models.Core.MetaData> FileGrabber(List<DropboxRestAPI.Models.Core.MetaData> results, List<DropboxRestAPI.Models.Core.MetaData> check)
+    {
+        for (int i = 0; i < check.Count; i++)
+        {
+            if (check.ElementAt(i).is_dir)
+            {
+                var folder = client.Core.Metadata.MetadataAsync(check.ElementAt(i).path, list: true);
+                results = FileGrabber(results, folder.Result.contents);
+            }
+            else if (!results.Contains(check.ElementAt(i)))
+            {
+                results.Add(check.ElementAt(i));
+            }
+        }
+        return results;
+    }
+
+    internal void Upload(string root, string fileName, string path, byte[] b)
+    {
+        client.Core.Metadata.MediaAsync(b.ToString());
+    }
+
+    public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Search(string criteria)
+    {
+        IEnumerable<DropboxRestAPI.Models.Core.MetaData> downloaded = Download();
+
+        downloaded = downloaded.Where(x => x.Name.Contains(criteria) || x.Extension.Contains(criteria));
+
+        return downloaded;
     }
 }

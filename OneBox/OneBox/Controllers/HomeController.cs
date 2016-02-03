@@ -45,6 +45,8 @@ namespace OneBox.Controllers
             IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Download();
             TempData["DropBoxResult"] = dropboxresults;
 
+            TempData["DropBoxDownloader"] = d;
+
             return View();
         }
 
@@ -73,9 +75,15 @@ namespace OneBox.Controllers
         public ActionResult FileList(string search)
         {
             GoogleDriveDownloader g = new GoogleDriveDownloader();
+            DropBoxDownloader d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> results = g.Search(search);
-            TempData["Result"] = results;
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Search(search);
+            TempData["GoogleResult"] = googleresults;
+
+            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Search(search);
+            TempData["DropBoxResult"] = googleresults;
+
+            TempData["DropBoxDownloader"] = d;
 
             return View();
         }
