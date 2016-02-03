@@ -37,9 +37,13 @@ namespace OneBox.Controllers
         {
             ViewBag.Message = "Your file list page.";
             GoogleDriveDownloader g = new GoogleDriveDownloader();
+            DropBoxDownloader d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> results = g.Download();
-            TempData["Result"] = results;
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Download();
+            TempData["GoogleResult"] = googleresults;
+
+            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Download();
+            TempData["DropBoxResult"] = dropboxresults;
 
             return View();
         }

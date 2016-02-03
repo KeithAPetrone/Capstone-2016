@@ -17,7 +17,7 @@ public class GoogleDriveDownloader
 
     public GoogleDriveDownloader()
     {
-        IEnumerable<string> lines = System.IO.File.ReadLines("C:\\Users\\Keith Petrone\\Documents\\Google.txt");
+        IEnumerable<string> lines = System.IO.File.ReadLines("C:\\Users\\OneBox\\Documents\\Google.txt");
         this.credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
             new ClientSecrets
             {
@@ -51,7 +51,7 @@ public class GoogleDriveDownloader
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<File> daFiles = files.Items;
-        daFiles = daFiles.Where(x => x.Title.Contains(criteria)).ToList();
+        daFiles = daFiles.Where(x => x.Title.Contains(criteria) || x.FileExtension.Contains(criteria)).ToList();
         return daFiles;
     }
 

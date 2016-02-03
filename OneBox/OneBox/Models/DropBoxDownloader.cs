@@ -1,76 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
 using DropboxRestAPI;
-using OAuth;
 
 public class DropBoxDownloader
 {
-    DropboxRestAPI.Client client = null;
+    string consumerKey = "";
+    string consumerSecret = "";
+    string accessToken = "";
+    Client client;
 
     public DropBoxDownloader()
     {
-            
-    }
+        IEnumerable<string> lines = System.IO.File.ReadLines("C:\\Users\\OneBox\\Documents\\DropBox.txt");
+        this.consumerKey = lines.ElementAt(0);
+        this.consumerSecret = lines.ElementAt(1);
+        this.accessToken = lines.ElementAt(2);
 
-    public void DropBoxAuthenticate()
-    {
-        var consumerKey = "vffs1vook3fyx5x";
-        var consumerSecret = "7ecorboxscy56cr";
-
-        
-
-        var uri = new Uri("https://api.dropbox.com/1/oauth/request_token");
-
-        // Generate a signature
-        OAuthBase oAuth = new OAuthBase();
-        string nonce = oAuth.GenerateNonce();
-        string timeStamp = oAuth.GenerateTimeStamp();
-        string parameters;
-        string normalizedUrl;
-        string signature = oAuth.GenerateSignature(uri, consumerKey, consumerSecret,
-            String.Empty, String.Empty, "GET", timeStamp, nonce, OAuthBase.SignatureTypes.HMACSHA1,
-            out normalizedUrl, out parameters);
-
-        signature = HttpUtility.UrlEncode(signature);
-
-        StringBuilder requestUri = new StringBuilder(uri.ToString());
-        requestUri.AppendFormat("?oauth_consumer_key={0}&", consumerKey);
-        requestUri.AppendFormat("oauth_nonce={0}&", nonce);
-        requestUri.AppendFormat("oauth_timestamp={0}&", timeStamp);
-        requestUri.AppendFormat("oauth_signature_method={0}&", "HMAC-SHA1");
-        requestUri.AppendFormat("oauth_version={0}&", "1.0");
-        requestUri.AppendFormat("oauth_signature={0}", signature);
-
-
-        try
+        var options = new Options
         {
-            var request = (HttpWebRequest)WebRequest.Create(new Uri(requestUri.ToString()));
-            request.Method = WebRequestMethods.Http.Get;
-
-            var response = request.GetResponse();
-
-            var queryString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-            var parts = queryString.Split('&');
-            var token = parts[1].Substring(parts[1].IndexOf('=') + 1);
-            var tokenSecret = parts[0].Substring(parts[0].IndexOf('=') + 1);
-        }
-        catch (WebException e)
-        { }
+            ClientId = consumerKey, //App key
+            ClientSecret = consumerSecret, //App secret
+            AccessToken = accessToken,
+            RedirectUri = "https://www.dropbox.com/1/oauth2/authorize"
+        };
+        // Initialize a new Client (without an AccessToken)
+        client = new Client(options);
     }
 
-    public void Download()
+    public List<DropboxRestAPI.Models.Core.MetaData> Download()
     {
-        //var request = (HttpWebRequest)WebRequest.Create(requestUri);
-        //request.Method = WebRequestMethods.Http.Get;
-        //var response = request.GetResponse();
+        List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
 
-        //return new List<DropboxRestAPI>();
+        // Get the OAuth Request Url
+        var authRequestUrl = client.Core.OAuth2.Authorize("code");
+
+        // TODO: Navigate to authRequestUrl using the browser, and retrieve the Authorization Code from the response
+        var authCode = "...";
+
+        // Exchange the Authorization Code with Access/Refresh tokens
+        var token = client.Core.OAuth2.TokenAsync(authCode);
+
+        // Get root folder with content
+        var rootFolder = client.Core.Metadata.MetadataAsync("/", list: true);
+
+        // Find a file in the root folder
+        var file = rootFolder.Result.contents.FirstOrDefault(x => x.is_dir == false);
+
+        for (int i = 0; i < rootFolder.Result.contents.Count(); i++)
+        {
+
+        }
     }
 }

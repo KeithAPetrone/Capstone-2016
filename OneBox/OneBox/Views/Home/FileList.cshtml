@@ -20,10 +20,9 @@
     <p>This is the file list page!</p><br/><br />
     
     @{
-        IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = (IEnumerable<Google.Apis.Drive.v2.Data.File>
-        )TempData["Result"];
-        DropBoxDownloader d = new DropBoxDownloader();
-        d.DropBoxAuthenticate();
+        IEnumerable<Google.Apis.Drive.v2.Data.File> googleList = (IEnumerable<Google.Apis.Drive.v2.Data.File>)TempData["GoogleResult"];
+        IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
+
         }
         <p>Add files with this:</p>
 
@@ -48,31 +47,50 @@
         <br />
 
         <br /><br />
-        <br /><br /><p>Your files:</p>
+        <br /><br /><p>Your Google Drive files:</p>
         <table border="1">
             @{
-                for (int i = 0; i < fileList.Count(); i++)
+                for (int i = 0; i < googleList.Count(); i++)
                 {
                     <tr>
                         @{
-                            for (int j = 0; j < 5 && i < fileList.Count(); j++)
+                            for (int j = 0; j < 5 && i < googleList.Count(); j++)
                             {
                                 <td>
-                                    <p>@fileList.ElementAt(i).Title</p>
+                                    <p>@googleList.ElementAt(i).Title</p>
                                     @{
-                                        <img src="@fileList.ElementAt(i).ThumbnailLink" />
+                                        <img src="@googleList.ElementAt(i).ThumbnailLink" />
                                     }
 
-                                    <a href="@fileList.ElementAt(i).AlternateLink">Download here!</a>
+                                    <a href="@googleList.ElementAt(i).AlternateLink">Download here!</a>
                                     @{
                                         i++;
                                     }
                                 </td>
-                                        }
+                            }
                         }
                     </tr>
-                                        }
+                }
             }
         </table>
+    <br /><br /><p>Your DropBox files:</p>
+    <table border="1">
+        @{
+            for (int i = 0; i < dropboxList.Count(); i++)
+            {
+                <tr>
+                    @{
+                        for (int j = 0; j < 5 && i < dropboxList.Count(); j++)
+                        {
+                            <td>
+                                <p>@dropboxList.ElementAt(i).Name</p>
+                                @{ i++; }
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
 </body>
 </html>
