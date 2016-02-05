@@ -78,11 +78,15 @@ public class DropBoxDownloader
         return results;
     }
 
-    internal void Upload(string root, string fileName, string path, byte[] b)
+    internal void Upload(string root, string fileName, string path, byte[] contents)
     {
-        client.Core.Metadata.MediaAsync(b.ToString());
-    }
+        string putUrl = "https://api-content.dropbox.com/1/files_put/sandbox/some-image.png";
+        
+        IConsumerRequest putRequest = session.Request().Put().ForUrl(putUrl).WithRawContent(contents);
 
+        string putInfo = putRequest.ReadBody();
+    }
+    
     public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Search(string criteria)
     {
         IEnumerable<DropboxRestAPI.Models.Core.MetaData> downloaded = Download();
