@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using DropboxRestAPI;
+using RestSharp;
+using RestSharp.Deserializers;
+using System.IO;
+using OAuth;
 
 public class DropBoxDownloader
 {
@@ -9,6 +13,7 @@ public class DropBoxDownloader
     string consumerSecret = "";
     string accessToken = "";
     public Client client;
+    DropNetRT.DropNetClient dnClient;
 
     public DropBoxDownloader()
     {
@@ -78,13 +83,11 @@ public class DropBoxDownloader
         return results;
     }
 
-    internal void Upload(string root, string fileName, string path, byte[] contents)
+    public void Upload(string path, string fileName, Stream fileStream)
     {
-        string putUrl = "https://api-content.dropbox.com/1/files_put/sandbox/some-image.png";
-        
-        IConsumerRequest putRequest = session.Request().Put().ForUrl(putUrl).WithRawContent(contents);
+        dnClient = new DropNetRT.DropNetClient(consumerKey, consumerSecret);
 
-        string putInfo = putRequest.ReadBody();
+        dnClient.Upload(path, fileName, fileStream);
     }
     
     public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Search(string criteria)
