@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using DropboxRestAPI;
-using RestSharp;
-using RestSharp.Deserializers;
 using System.IO;
-using OAuth;
 
 public class DropBoxDownloader
 {
