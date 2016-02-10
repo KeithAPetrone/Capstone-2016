@@ -415,3 +415,9 @@ C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\vi\Nemiro.OAuth.LoginForm
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\zh\Nemiro.OAuth.LoginForms.resources.dll
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\RestSharp.dll
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\RestSharp.xml
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\DropNetRT.dll
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\AppLimit.CloudComputing.SharpBox.dll
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\AppLimit.CloudComputing.SharpBox.ExperimentalProvider.dll
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\AppLimit.CloudComputing.SharpBox.MockProvider.dll
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\DropBoxTokenIssuer.exe
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\Newtonsoft.Json.Net40.dll

@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using System.Web;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace OneBox.Controllers
 {
@@ -44,9 +45,10 @@ namespace OneBox.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
             GoogleDriveDownloader g = new GoogleDriveDownloader();
+            DropBoxDownloader d = new DropBoxDownloader();
 
             var fileName = Path.GetFileName(file.FileName);
             var path = "C:/TempFiles/" + fileName;
@@ -61,8 +63,11 @@ namespace OneBox.Controllers
             System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
             g.Upload(body, stream, GetMimeType(fileName));
 
-            return Redirect("FileList");
+            await d.Upload(fileName, path);
+
+            return View("FileList");
         }
+
 
         [HttpPost]
         public ActionResult FileList(string search)
