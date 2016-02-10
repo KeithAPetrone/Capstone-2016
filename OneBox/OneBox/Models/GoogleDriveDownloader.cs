@@ -67,7 +67,7 @@ public class GoogleDriveDownloader
         return id;
     }
 
-    public void SyncWithDropBox()
+    public async void SyncWithDropBox()
     {
         DropBoxDownloader d = new DropBoxDownloader();
         GoogleDriveDownloader g = new GoogleDriveDownloader();
@@ -77,8 +77,10 @@ public class GoogleDriveDownloader
         foreach (var dfile in dropbox)
         {
             bool found = false;
+            string name = "";
             foreach (var gfile in googledrive)
             {
+                name = gfile.Title;
                 if (gfile.Title.Equals(dfile.Name))
                 {
                     found = true;
@@ -86,11 +88,24 @@ public class GoogleDriveDownloader
             }
             if (!found)
             {
-                var path = "C:/TempFiles/" + dfile.Name;
-                file.SaveAs(Path.Combine(@"C:/TempFiles", dfile.Name));
+                List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
 
+                var rootFolder = await d.client.Core.Metadata.MetadataAsync("/", list: true);
 
-                g.Upload(dfile);
+                var file = rootFolder.contents.FirstOrDefault(x => x.Name.Contains(name));
+
+                var tempFile = Path.GetTempFileName();
+                using (var fileStream = System.IO.File.OpenWrite(tempFile))
+                {
+                    await d.client.Core.Metadata.FilesAsync(file.path, fileStream);
+                }
+
+                MemoryStream mem = new MemoryStream();
+                using (var fileStream = System.IO.File.OpenRead(tempFile))
+                {
+                    fileStream.CopyTo(mem);
+                    g.Upload(new Google.Apis.Drive.v2.Data.File(), mem, null);
+                }          
             }
         }
     }

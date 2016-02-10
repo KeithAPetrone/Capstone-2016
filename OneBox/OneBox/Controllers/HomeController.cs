@@ -64,6 +64,7 @@ namespace OneBox.Controllers
             g.Upload(body, stream, GetMimeType(fileName));
 
             await d.Upload(fileName, path);
+            g.SyncWithDropBox();
 
             return Redirect("FileList");
         }
