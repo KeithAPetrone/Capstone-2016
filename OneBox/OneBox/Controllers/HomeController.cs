@@ -65,7 +65,7 @@ namespace OneBox.Controllers
 
             await d.Upload(fileName, path);
 
-            return View("FileList");
+            return Redirect("FileList");
         }
 
 
