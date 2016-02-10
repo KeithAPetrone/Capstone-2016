@@ -36,6 +36,24 @@ public class DropBoxDownloader
 
     public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Download()
     {
+        //List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
+
+        //var rootFolder = await client.Core.Metadata.MetadataAsync("/", list: true);
+
+        //foreach (var f in rootFolder.contents)
+        //{
+        //    list.Add(f);
+        //}
+
+        //foreach (var l in list)
+        //{
+        //    var tempFile = Path.GetTempFileName();
+        //    using (var fileStream = System.IO.File.OpenWrite(tempFile))
+        //    {
+        //        client.Core.Metadata.FilesAsync(l.path, fileStream);
+        //    }
+        //}
+
         List<DropboxRestAPI.Models.Core.MetaData> results = new List<DropboxRestAPI.Models.Core.MetaData>();
 
         // Get the OAuth Request Url
