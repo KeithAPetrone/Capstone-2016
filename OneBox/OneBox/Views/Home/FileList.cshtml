@@ -47,9 +47,9 @@
     <br />
 
     <br /><br />
-    <br /><br /><p>Your Google Drive files:</p>
+    <br /><br /><p>Your Cloud Storage files:</p>
 
-    <p>Add files to Google Drive with this:</p>
+    <p>Add files to your cloud storage with this:</p>
 
 
     <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
@@ -89,7 +89,7 @@
                                         catch (ArgumentNullException e) { } }
 
     </table>
-    <br /><br /><p>Your DropBox files:</p>
+    @*<br /><br /><p>Your DropBox files:</p>
     <table border="1">
         @{
             try
@@ -116,6 +116,6 @@ d.client.Core.Metadata.FilesAsync(dropboxList.ElementAt(i).path, fileStream);
                                         }
                                         catch (ArgumentNullException e) { }
         }
-    </table>
+    </table>*@
 </body>
 </html>
