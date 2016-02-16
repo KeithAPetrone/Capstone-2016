@@ -33,10 +33,10 @@ namespace OneBox.Controllers
             GoogleDriveDownloader g = new GoogleDriveDownloader();
             DropBoxDownloader d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Download();
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = (IEnumerable<Google.Apis.Drive.v2.Data.File>)g.Download();
             TempData["GoogleResult"] = googleresults;
 
-            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Download();
+            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)d.Download();
             TempData["DropBoxResult"] = dropboxresults;
 
             TempData["DropBoxDownloader"] = d;
@@ -54,16 +54,10 @@ namespace OneBox.Controllers
             var path = "C:/TempFiles/" + fileName;
             file.SaveAs(Path.Combine(@"C:/TempFiles", fileName));
 
-            Google.Apis.Drive.v2.Data.File body = new Google.Apis.Drive.v2.Data.File();
-            body.Title = System.IO.Path.GetFileName(path);
-            body.Description = "File uploaded OneBox";
-            body.MimeType = GetMimeType(fileName);
-
-            byte[] byteArray = System.IO.File.ReadAllBytes(path);
-            System.IO.MemoryStream stream = new System.IO.MemoryStream(byteArray);
-            g.Upload(body, stream, GetMimeType(fileName));
+            await g.Upload(fileName, path);
 
             await d.Upload(fileName, path);
+
             g.SyncWithDropBox();
 
             return Redirect("FileList");
@@ -76,25 +70,15 @@ namespace OneBox.Controllers
             GoogleDriveDownloader g = new GoogleDriveDownloader();
             DropBoxDownloader d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Search(search);
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = (IEnumerable<Google.Apis.Drive.v2.Data.File>)g.Search(search);
             TempData["GoogleResult"] = googleresults;
 
-            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Search(search);
+            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)d.Search(search);
             TempData["DropBoxResult"] = googleresults;
 
             TempData["DropBoxDownloader"] = d;
 
             return View();
-        }
-
-        private static string GetMimeType(string fileName)
-        {
-            string mimeType = "application/unknown";
-            string ext = System.IO.Path.GetExtension(fileName).ToLower();
-            Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
-            if (regKey != null && regKey.GetValue("Content Type") != null)
-                mimeType = regKey.GetValue("Content Type").ToString();
-            return mimeType;
         }
     }
 }

@@ -4,8 +4,9 @@ using DropboxRestAPI;
 using System.Text;
 using System.Web;
 using System.Threading.Tasks;
+using OneBox.Models;
 
-public class DropBoxDownloader
+public class DropBoxDownloader : CloudDrive
 {
     string consumerKey = "";
     string consumerSecret = "";
@@ -31,7 +32,7 @@ public class DropBoxDownloader
         client = new Client(options);
     }
 
-    public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Download()
+    public IEnumerable<object> Download()
     {
         //List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
 
@@ -111,9 +112,9 @@ public class DropBoxDownloader
         }
     }
 
-    public IEnumerable<DropboxRestAPI.Models.Core.MetaData> Search(string criteria)
+    public IEnumerable<object> Search(string criteria)
     {
-        IEnumerable<DropboxRestAPI.Models.Core.MetaData> downloaded = Download();
+        IEnumerable<DropboxRestAPI.Models.Core.MetaData> downloaded = (IEnumerable < DropboxRestAPI.Models.Core.MetaData >)Download();
 
         downloaded = downloaded.Where(x => x.Name.Contains(criteria) || x.Extension.Contains(criteria));
 

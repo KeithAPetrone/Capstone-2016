@@ -421,3 +421,4 @@ C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\AppLimit.CloudComputing.S
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\AppLimit.CloudComputing.SharpBox.MockProvider.dll
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\DropBoxTokenIssuer.exe
 C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\Newtonsoft.Json.Net40.dll
+C:\Users\OneBox\Source\Capstone-2016\OneBox\OneBox\bin\WebBackgrounder.dll

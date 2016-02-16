@@ -2,13 +2,15 @@
 using Google.Apis.Drive.v2;
 using Google.Apis.Drive.v2.Data;
 using Google.Apis.Services;
+using OneBox.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
-public class GoogleDriveDownloader
+public class GoogleDriveDownloader : CloudDrive
 {
     UserCredential credential;
     DriveService service;
@@ -34,7 +36,7 @@ public class GoogleDriveDownloader
         });
     }
 
-    public IEnumerable<Google.Apis.Drive.v2.Data.File> Download()
+    public IEnumerable<object> Download()
     {
         // Request the files
         FilesResource.ListRequest listRequest = service.Files.List();
@@ -44,7 +46,7 @@ public class GoogleDriveDownloader
         return daFiles;
     }
 
-    public IEnumerable<Google.Apis.Drive.v2.Data.File> Search(string criteria)
+    public IEnumerable<object> Search(string criteria)
     {
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
@@ -53,14 +55,22 @@ public class GoogleDriveDownloader
         return daFiles;
     }
 
-    public void Upload(Google.Apis.Drive.v2.Data.File fileUpload, System.IO.MemoryStream stream, string mimeType)
+    public async Task Upload(string fileName, string path)
     {
-        FilesResource.InsertMediaUpload request = this.service.Files.Insert(fileUpload, stream, mimeType);
+        Google.Apis.Drive.v2.Data.File body = new Google.Apis.Drive.v2.Data.File();
+        body.Title = System.IO.Path.GetFileName(path);
+        body.Description = "File uploaded OneBox";
+        body.MimeType = GetMimeType(fileName);
+
+        byte[] byteArray = System.IO.File.ReadAllBytes(path);
+        MemoryStream stream = new MemoryStream(byteArray);
+
+        FilesResource.InsertMediaUpload request = this.service.Files.Insert(body, stream, body.MimeType);
         request.Upload();
         stream.Close();
     }
 
-    public String Delete(String id)
+    public string Delete(string id)
     {
         service.Files.Delete(id).Execute();
 
@@ -71,8 +81,8 @@ public class GoogleDriveDownloader
     {
         DropBoxDownloader d = new DropBoxDownloader();
         GoogleDriveDownloader g = new GoogleDriveDownloader();
-        var dropbox = d.Download();
-        var googledrive = g.Download();
+        IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropbox = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)d.Download();
+        IEnumerable<Google.Apis.Drive.v2.Data.File> googledrive = (IEnumerable<Google.Apis.Drive.v2.Data.File>)g.Download();
 
         foreach (var dfile in dropbox)
         {
@@ -104,9 +114,19 @@ public class GoogleDriveDownloader
                 using (var fileStream = System.IO.File.OpenRead(tempFile))
                 {
                     fileStream.CopyTo(mem);
-                    g.Upload(new Google.Apis.Drive.v2.Data.File(), mem, null);
+                    await g.Upload(file.Name, file.path);
                 }          
             }
         }
+    }
+
+    private static string GetMimeType(string fileName)
+    {
+        string mimeType = "application/unknown";
+        string ext = System.IO.Path.GetExtension(fileName).ToLower();
+        Microsoft.Win32.RegistryKey regKey = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(ext);
+        if (regKey != null && regKey.GetValue("Content Type") != null)
+            mimeType = regKey.GetValue("Content Type").ToString();
+        return mimeType;
     }
 }
