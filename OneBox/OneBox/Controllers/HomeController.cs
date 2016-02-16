@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web;
 using System.IO;
 using System.Threading.Tasks;
+using OneBox.Models;
 
 namespace OneBox.Controllers
 {
@@ -41,6 +42,8 @@ namespace OneBox.Controllers
 
             TempData["DropBoxDownloader"] = d;
 
+            new BackgroundSync(new System.TimeSpan(0, 0, 20, 0, 0), new System.TimeSpan(0, 5, 20, 0, 0), g);
+
             return View();
         }
 
@@ -57,8 +60,6 @@ namespace OneBox.Controllers
             await g.Upload(fileName, path);
 
             await d.Upload(fileName, path);
-
-            g.SyncWithDropBox();
 
             return Redirect("FileList");
         }

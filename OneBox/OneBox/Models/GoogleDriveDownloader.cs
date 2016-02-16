@@ -76,7 +76,7 @@ public class GoogleDriveDownloader : CloudDrive
         return id;
     }
 
-    public async void SyncWithDropBox()
+    public async Task SyncWithDropBox()
     {
         DropBoxDownloader d = new DropBoxDownloader();
         GoogleDriveDownloader g = new GoogleDriveDownloader();
