@@ -16,14 +16,7 @@
                     @Html.ActionLink("OneBox", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul>
-                        <li>
-                            @Html.ActionLink("Home", "Index", "Home")
-                        </li>
-                        <li>
-                            @Html.ActionLink("File List", "FileList", "Home")
-                        </li>
-                    </ul>
+                            @Html.ActionLink("Home", "Index", "Home")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("File List", "FileList", "Home")
                     @Html.Partial("_LoginPartial")
                 </div>
             </div>

@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #CCCCFF;
+    background-color: #B2AEAE;
     font-family: fantasy;
 }
  
@@ -16,7 +16,7 @@ nav {
 }
 
 a:link, a:visited {
-    color: red;
+    color: #FFFFFE;
 }
 
 .navbar-collapse collapse {
@@ -27,12 +27,21 @@ a:link, a:visited {
 #inner {
     width: 50%;
     margin: 0 auto; 
+    font-family: Tahoma;
 }
 
 .nowrap {
-  white-space: nowrap ;
+  white-space: nowrap;
+  text-combine-upright: all;
+  text-align: center;
+  font-family: Tahoma;
 }
 
 .filename {
-  white-space: nowrap ;
+  text-align:center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.fileslist {
+  background-color: #C5CACC;
 }

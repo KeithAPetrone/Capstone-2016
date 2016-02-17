@@ -37,7 +37,7 @@
     </form>
     </div>
 
-    <table border="0">
+    <table border="0" class="fileslist">
         @{
             try
             {
@@ -54,7 +54,7 @@
                                         {
                                             <a href="@googleList.ElementAt(i).AlternateLink">Download</a>
                                         }
-                                        <a href="@googleList.ElementAt(i).AlternateLink"><img src="@googleList.ElementAt(i).ThumbnailLink" /></a>
+                                        <a href="@googleList.ElementAt(i).AlternateLink"><img src="@googleList.ElementAt(i).ThumbnailLink"/></a>
                                         i++;
                                     }
                                 </td>
