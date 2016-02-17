@@ -1,24 +1,12 @@
 ﻿@{
     ViewBag.Title = "FileList";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 <html>
 <head>
     <title>File List</title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <table border="0" cellpadding="10">
-        <tr>
-            <td>
-                <h1>Welcome to OneBox</h1>
-            </td>
-        </tr>
-    </table>
-
-    <p>This is the file list page!</p><br /><br />
-
     @{
         IEnumerable<Google.Apis.Drive.v2.Data.File> googleList = (IEnumerable<Google.Apis.Drive.v2.Data.File>)TempData["GoogleResult"];
         IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
@@ -44,21 +32,8 @@
 
         <input type="submit" />
     </form>
-    <br />
 
-    <br /><br />
     <br /><br /><p>Your Cloud Storage files:</p>
-
-    <p>Add files to your cloud storage with this:</p>
-
-
-    <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
-
-        <label for="file">Filename:</label>
-        <input type="file" name="file" id="file" />
-
-        <input type="submit" />
-    </form>
 
     <table border="1">
         @{
