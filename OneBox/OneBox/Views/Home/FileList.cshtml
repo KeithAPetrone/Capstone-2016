@@ -48,11 +48,7 @@
                                 <td>
                                     <p>@googleList.ElementAt(i).Title</p>
                                     @{
-                                        <img src="@googleList.ElementAt(i).ThumbnailLink" />
-                                    }
-
-                                    <a href="@googleList.ElementAt(i).AlternateLink">Download here!</a>
-                                    @{
+                                        <a href="@googleList.ElementAt(i).AlternateLink"><img src="@googleList.ElementAt(i).ThumbnailLink" /></a>
                                         i++;
                                     }
                                 </td>
