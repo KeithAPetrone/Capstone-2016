@@ -12,7 +12,10 @@
         IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
         DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
     }
-    <p>Add files with this:</p>
+
+    <br /><br /><div class="nowrap">Your Cloud Storage files:
+    <br /><br />
+    Add files with this:
 
 
     <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
@@ -23,7 +26,7 @@
         <input type="submit" />
     </form>
     <br />
-    <p>Search for files:</p>
+    Search for files:
 
     <form action="" method="post" enctype="multipart/form-data">
 
@@ -32,10 +35,9 @@
 
         <input type="submit" />
     </form>
+    </div>
 
-    <br /><br /><p>Your Cloud Storage files:</p>
-
-    <table border="1">
+    <table border="0">
         @{
             try
             {
@@ -43,11 +45,15 @@
                 {
                     <tr>
                         @{
-                            for (int j = 0; j < 5 && i < googleList.Count(); j++)
+                            for (int j = 0; j < 8 && i < googleList.Count(); j++)
                             {
                                 <td>
-                                    <p>@googleList.ElementAt(i).Title</p>
+                                    <p class="filename">@googleList.ElementAt(i).Title</p>
                                     @{
+                                        if (@googleList.ElementAt(i).ThumbnailLink == null)
+                                        {
+                                            <a href="@googleList.ElementAt(i).AlternateLink">Download</a>
+                                        }
                                         <a href="@googleList.ElementAt(i).AlternateLink"><img src="@googleList.ElementAt(i).ThumbnailLink" /></a>
                                         i++;
                                     }
