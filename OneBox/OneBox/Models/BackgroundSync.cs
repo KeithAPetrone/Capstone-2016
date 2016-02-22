@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Apis.Drive.v2.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,9 +13,9 @@ namespace OneBox.Models
     {
         GoogleDriveDownloader g;
 
-        public BackgroundSync(TimeSpan interval, TimeSpan timeout, GoogleDriveDownloader g) : base("Background Synchronization", interval, timeout)
+        public BackgroundSync(TimeSpan interval, TimeSpan timeout, ICloudDrive<File> g) : base("Background Synchronization", interval, timeout)
         {
-            this.g = g;
+            this.g = (GoogleDriveDownloader)g;
         }
 
         public override Task Execute()

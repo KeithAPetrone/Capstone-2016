@@ -9,8 +9,8 @@
 <body>
     @{
         IEnumerable<Google.Apis.Drive.v2.Data.File> googleList = (IEnumerable<Google.Apis.Drive.v2.Data.File>)TempData["GoogleResult"];
-        IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
-        DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
+        //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (List<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
+        //DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
     }
 
     <br /><br /><div class="nowrap">Your Cloud Storage files:
@@ -20,7 +20,7 @@
 
     <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
 
-        <label for="file">Filename:</label>
+        <label for="file">File Name:</label>
         <input type="file" name="file" id="file" />
 
         <input type="submit" />

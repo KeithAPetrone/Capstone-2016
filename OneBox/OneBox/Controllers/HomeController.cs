@@ -31,16 +31,17 @@ namespace OneBox.Controllers
         public ActionResult FileList()
         {
             ViewBag.Message = "Your file list page.";
-            GoogleDriveDownloader g = new GoogleDriveDownloader();
-            DropBoxDownloader d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = (IEnumerable<Google.Apis.Drive.v2.Data.File>)g.Download();
+            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
+            //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
+
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Download();
             TempData["GoogleResult"] = googleresults;
 
-            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)d.Download();
-            TempData["DropBoxResult"] = dropboxresults;
+            //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Download();
+            //TempData["DropBoxResult"] = dropboxresults;
 
-            TempData["DropBoxDownloader"] = d;
+            //TempData["DropBoxDownloader"] = d;
 
             new BackgroundSync(new System.TimeSpan(0, 0, 20, 0, 0), new System.TimeSpan(0, 5, 20, 0, 0), g);
 
@@ -68,16 +69,16 @@ namespace OneBox.Controllers
         [HttpPost]
         public ActionResult FileList(string search)
         {
-            GoogleDriveDownloader g = new GoogleDriveDownloader();
-            DropBoxDownloader d = new DropBoxDownloader();
+            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
+            //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = (IEnumerable<Google.Apis.Drive.v2.Data.File>)g.Search(search);
+            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Search(search);
             TempData["GoogleResult"] = googleresults;
 
-            IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = (IEnumerable<DropboxRestAPI.Models.Core.MetaData>)d.Search(search);
-            TempData["DropBoxResult"] = googleresults;
+            //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Search(search);
+            //TempData["DropBoxResult"] = googleresults;
 
-            TempData["DropBoxDownloader"] = d;
+            //TempData["DropBoxDownloader"] = d;
 
             return View();
         }

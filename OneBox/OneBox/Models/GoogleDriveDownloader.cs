@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class GoogleDriveDownloader : CloudDrive
+public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
 {
     UserCredential credential;
     DriveService service;
@@ -35,7 +35,7 @@ public class GoogleDriveDownloader : CloudDrive
         });
     }
 
-    public IEnumerable<object> Download()
+    public IEnumerable<Google.Apis.Drive.v2.Data.File> Download()
     {
         // Request the files
         FilesResource.ListRequest listRequest = service.Files.List();
@@ -45,12 +45,12 @@ public class GoogleDriveDownloader : CloudDrive
         return daFiles;
     }
 
-    public IEnumerable<object> Search(string criteria)
+    public IEnumerable<Google.Apis.Drive.v2.Data.File> Search(string criteria)
     {
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
-        daFiles = daFiles.Where(x => x.Title.Contains(criteria) || x.FileExtension.Contains(criteria)).ToList();
+        daFiles = daFiles.Where(x => x.Title.Contains(criteria) || (x.FileExtension != null && x.FileExtension.Contains(criteria))).ToList();
         return daFiles;
     }
 

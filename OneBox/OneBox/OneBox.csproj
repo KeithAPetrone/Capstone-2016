@@ -321,7 +321,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BackgroundSync.cs" />
-    <Compile Include="Models\CloudDrive.cs" />
+    <Compile Include="Models\ICloudDrive.cs" />
     <Compile Include="Models\DropBoxDownloader.cs" />
     <Compile Include="Models\GoogleDriveDownloader.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
