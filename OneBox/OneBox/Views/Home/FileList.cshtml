@@ -37,35 +37,35 @@
     </form>
     </div>
 
-    <table border="0" class="fileslist">
+    <div  class="fileslist">
         @{
             try
             {
-                for (int i = 0; i < googleList.Count(); i++)
-                {
-                    <tr>
-                        @{
-                            for (int j = 0; j < 8 && i < googleList.Count(); j++)
-                            {
-                                <td>
-                                    <p class="filename">@googleList.ElementAt(i).Title</p>
-                                    @{
-                                        if (@googleList.ElementAt(i).ThumbnailLink == null)
-                                        {
-                                            <a href="@googleList.ElementAt(i).AlternateLink">Download</a>
-                                        }
-                                        <a href="@googleList.ElementAt(i).AlternateLink"><img src="@googleList.ElementAt(i).ThumbnailLink"/></a>
-                                        i++;
+                <ul class="rig">
+                    @{
+                        for (int j = 0; j < googleList.Count(); j++)
+                        {
+                            <li>
+                                <p class="filename">@googleList.ElementAt(j).Title</p>
+                                @{
+                                    if (@googleList.ElementAt(j).ThumbnailLink == null)
+                                    {
+                                        <a class="downloadLink" href="@googleList.ElementAt(j).AlternateLink"/>
                                     }
-                                </td>
-                                        }
-                        }
-                    </tr>
-                                            }
-                                        }
-                                        catch (ArgumentNullException e) { } }
+                                    <a href="@googleList.ElementAt(j).AlternateLink"><img src="@googleList.ElementAt(j).ThumbnailLink" /></a>
+                                    j++;
+                                }
+                            </li>
 
-    </table>
+                                    }
+                                    }
+
+                </ul>
+                                        }
+                                        catch (ArgumentNullException e) { }
+                                    }
+
+    </div>
     @*<br /><br /><p>Your DropBox files:</p>
     <table border="1">
         @{
