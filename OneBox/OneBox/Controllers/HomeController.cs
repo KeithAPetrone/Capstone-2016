@@ -32,6 +32,8 @@ namespace OneBox.Controllers
         {
             ViewBag.Message = "Your file list page.";
 
+            ICloudDrive<object>[] cloudDrives = new ICloudDrive<object>[2];
+
             ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
             //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
 

@@ -119,6 +119,11 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
         }
     }
 
+    private bool checkForDuplicates(Google.Apis.Drive.v2.Data.File file)
+    {
+        return true;
+    }
+
     private static string GetMimeType(string fileName)
     {
         string mimeType = "application/unknown";

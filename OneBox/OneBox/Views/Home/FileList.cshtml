@@ -50,7 +50,7 @@
                                 @{
                                     if (@googleList.ElementAt(j).ThumbnailLink == null)
                                     {
-                                        <a class="downloadLink" href="@googleList.ElementAt(j).AlternateLink"/>
+                                        <a href="@googleList.ElementAt(j).AlternateLink"><a class="downloadLink" href="@googleList.ElementAt(j).AlternateLink"/></a>
                                     }
                                     <a href="@googleList.ElementAt(j).AlternateLink"><img src="@googleList.ElementAt(j).ThumbnailLink" /></a>
                                     j++;
