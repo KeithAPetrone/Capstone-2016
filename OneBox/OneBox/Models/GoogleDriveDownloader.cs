@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
 {
@@ -63,9 +64,19 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
 
         byte[] byteArray = System.IO.File.ReadAllBytes(path);
         MemoryStream stream = new MemoryStream(byteArray);
+        string id = CheckForDuplicates(body);
 
-        FilesResource.InsertMediaUpload request = this.service.Files.Insert(body, stream, body.MimeType);
-        request.Upload();
+        if (id == null)
+        {
+            FilesResource.InsertMediaUpload request = this.service.Files.Insert(body, stream, body.MimeType);
+            request.Upload();
+        }
+        else
+        {
+            FilesResource.UpdateRequest request = this.service.Files.Update(body, id);
+            request.Execute();
+        }
+
         stream.Close();
     }
 
@@ -119,7 +130,7 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
         }
     }
 
-    private bool checkForDuplicates(Google.Apis.Drive.v2.Data.File file)
+    private string CheckForDuplicates(Google.Apis.Drive.v2.Data.File file)
     {
         IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = new List<Google.Apis.Drive.v2.Data.File>();
 
@@ -129,16 +140,16 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
             {
                 if (file.FileSize == f.FileSize)
                 {
-                    return true;
+                    return f.Id;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     private static string GetMimeType(string fileName)
