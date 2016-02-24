@@ -53,8 +53,8 @@ namespace OneBox.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
-            GoogleDriveDownloader g = new GoogleDriveDownloader();
-            DropBoxDownloader d = new DropBoxDownloader();
+            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
+            ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
 
             var fileName = Path.GetFileName(file.FileName);
             var path = "C:/TempFiles/" + fileName;
