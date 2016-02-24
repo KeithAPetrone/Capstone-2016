@@ -121,7 +121,24 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
 
     private bool checkForDuplicates(Google.Apis.Drive.v2.Data.File file)
     {
-        return true;
+        IEnumerable<Google.Apis.Drive.v2.Data.File> fileList = new List<Google.Apis.Drive.v2.Data.File>();
+
+        foreach (var f in fileList)
+        {
+            if (file.Title.Equals(f.Title) && file.FullFileExtension.Equals(f.FullFileExtension))
+            {
+                if (file.FileSize == f.FileSize)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static string GetMimeType(string fileName)
