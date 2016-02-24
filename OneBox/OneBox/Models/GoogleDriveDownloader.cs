@@ -71,11 +71,11 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
             FilesResource.InsertMediaUpload request = this.service.Files.Insert(body, stream, body.MimeType);
             request.Upload();
         }
-        else
-        {
-            FilesResource.UpdateRequest request = this.service.Files.Update(body, id);
-            request.Execute();
-        }
+        //else
+        //{
+        //    FilesResource.UpdateRequest request = this.service.Files.Update(body, id);
+        //    request.Execute();
+        //}
 
         stream.Close();
     }
