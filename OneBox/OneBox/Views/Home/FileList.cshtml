@@ -13,31 +13,40 @@
         //DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
     }
 
-    <br /><br /><div class="nowrap">Your Cloud Storage files:
     <br /><br />
-    Add files with this:
+    <div class="fileslist">
+        <div class="nowrap">
+            Your Cloud Storage files:
+            <br /><br />
+            <input type="checkbox" id="css3menu-switcher" class="c3m-switch-input">
+            <ul id="css3menu1" class="topmenu">
+                <li class="switch"><label onclick="" for="css3menu-switcher"></label></li>
+                <li class="topmenu">
+                    Add files with this:
 
 
-    <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
+                    <form action="@Url.Action("Upload", "Home")" method="post" enctype="multipart/form-data">
 
-        <label for="file">File Name:</label>
-        <input type="file" name="file" id="file" />
+                        <label for="file">File Name:</label>
+                        <input type="file" name="file" id="file" value="Upload" />
 
-        <input type="submit" />
-    </form>
-    <br />
-    Search for files:
+                        <input type="submit" />
+                    </form>
+                    <br />
+                </li>
+                <li class="topmenu">
+                    Search for files:
 
-    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
 
-        <label for="file">Criteria:</label>
-        <input type="search" name="search" id="search" />
+                        <label for="file">Criteria:</label>
+                        <input type="search" name="search" id="search" value="Search" />
 
-        <input type="submit" />
-    </form>
-    </div>
-
-    <div  class="fileslist">
+                        <input type="submit" />
+                    </form>
+                </li>
+            </ul>
+        </div>
         @{
             try
             {
@@ -50,22 +59,23 @@
                                 @{
                                     if (@googleList.ElementAt(j).ThumbnailLink == null)
                                     {
-                                        <a href="@googleList.ElementAt(j).AlternateLink"><a class="downloadLink" href="@googleList.ElementAt(j).AlternateLink"/></a>
+                                        <a href="@googleList.ElementAt(j).AlternateLink"><a class="downloadLink" href="@googleList.ElementAt(j).AlternateLink" /></a>
                                     }
-                                    <a href="@googleList.ElementAt(j).AlternateLink"><img src="@googleList.ElementAt(j).ThumbnailLink" /></a>
+                                    <a href="@googleList.ElementAt(j).AlternateLink"><img src="@googleList.ElementAt(j).ThumbnailLink" height="150" width="240" /></a>
                                     j++;
                                 }
                             </li>
 
                                     }
-                                    }
+                    }
 
                 </ul>
-                                        }
-                                        catch (ArgumentNullException e) { }
                                     }
+                                    catch (ArgumentNullException e) { }
+        }
 
     </div>
+
     @*<br /><br /><p>Your DropBox files:</p>
     <table border="1">
         @{
