@@ -10,5 +10,7 @@ namespace OneBox.Models
         Task Upload(string fileName, string path);
 
         IEnumerable<T> Search(string criteria);
+
+
     }
 }
