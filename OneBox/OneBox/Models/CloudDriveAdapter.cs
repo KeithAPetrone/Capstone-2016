@@ -11,6 +11,8 @@ namespace OneBox.Models
 
         public string Title { get; }
         public string Extension { get; }
+        public string ThumbnailLink { get; }
+        public string AlternateLink { get; }
 
 
         public CloudDriveAdapter(File file)
@@ -20,6 +22,8 @@ namespace OneBox.Models
 
             this.Title = googleFile.Title;
             this.Extension = googleFile.FileExtension;
+            this.ThumbnailLink = googleFile.ThumbnailLink;
+            this.ThumbnailLink = googleFile.AlternateLink;
         }
 
         public CloudDriveAdapter(MetaData file)
