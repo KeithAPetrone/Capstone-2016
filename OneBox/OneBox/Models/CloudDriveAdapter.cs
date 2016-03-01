@@ -22,7 +22,7 @@ namespace OneBox.Models
             this.Title = googleFile.Title;
             this.Extension = googleFile.FileExtension;
             this.ThumbnailLink = googleFile.ThumbnailLink;
-            this.ThumbnailLink = googleFile.AlternateLink;
+            this.AlternateLink = googleFile.AlternateLink;
         }
 
         public CloudDriveAdapter(MetaData file)
