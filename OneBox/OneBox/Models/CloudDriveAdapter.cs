@@ -34,10 +34,5 @@ namespace OneBox.Models
             this.Title = dropboxFile.Name;
             this.Extension = dropboxFile.Extension;
         }
-
-        public Tuple<File, MetaData> GetFile()
-        {
-            return new Tuple<File, MetaData>(this.googleFile, this.dropboxFile);
-        }
     }
 }
