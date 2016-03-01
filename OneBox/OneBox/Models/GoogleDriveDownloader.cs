@@ -8,8 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
-public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
+public class GoogleDriveDownloader : ICloudDrive
 {
     UserCredential credential;
     DriveService service;
@@ -35,23 +36,32 @@ public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
         });
     }
 
-    public IEnumerable<Google.Apis.Drive.v2.Data.File> Download()
+    public IEnumerable<CloudDriveAdapter> Download()
     {
         // Request the files
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
-        //daFiles = daFiles.Where(x => x.Shared == false && x.Shared != null).ToList();
-        return daFiles;
+        List<CloudDriveAdapter> results = new List<CloudDriveAdapter>();
+        foreach (var f in daFiles)
+        {
+            results.Add(new CloudDriveAdapter(f));
+        }
+        return results;
     }
 
-    public IEnumerable<Google.Apis.Drive.v2.Data.File> Search(string criteria)
+    public IEnumerable<CloudDriveAdapter> Search(string criteria)
     {
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
         daFiles = daFiles.Where(x => x.Title.Contains(criteria) || (x.FileExtension != null && x.FileExtension.Contains(criteria))).ToList();
-        return daFiles;
+        List<CloudDriveAdapter> results = new List<CloudDriveAdapter>();
+        foreach (var f in daFiles)
+        {
+            results.Add(new CloudDriveAdapter(f));
+        }
+        return results;
     }
 
     public async Task Upload(string fileName, string path)

@@ -32,9 +32,9 @@ namespace OneBox.Controllers
         {
             ViewBag.Message = "Your file list page.";
 
-            ICloudDrive<object>[] cloudDrives = new ICloudDrive<object>[2];
+            ICloudDrive[] cloudDrives = new ICloudDrive[2];
 
-            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
+            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new ICloudDrive();
             //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
 
             IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Download();

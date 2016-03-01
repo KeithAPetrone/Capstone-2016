@@ -6,8 +6,9 @@ using System.Web;
 using System.Threading.Tasks;
 using OneBox.Models;
 using DropboxRestAPI.Models.Core;
+using System;
 
-public class DropBoxDownloader : ICloudDrive<MetaData>
+public class DropBoxDownloader : ICloudDrive
 {
     string consumerKey = "";
     string consumerSecret = "";
@@ -33,7 +34,7 @@ public class DropBoxDownloader : ICloudDrive<MetaData>
         client = new Client(options);
     }
 
-    public IEnumerable<MetaData> Download()
+    public IEnumerable<CloudDriveAdapter> Download()
     {
         //List<DropboxRestAPI.Models.Core.MetaData> list = new List<DropboxRestAPI.Models.Core.MetaData>();
 
@@ -81,7 +82,12 @@ public class DropBoxDownloader : ICloudDrive<MetaData>
 
         done = done.Where(x => x.is_dir == false);
 
-        return done;
+        List<CloudDriveAdapter> finalresults = new List<CloudDriveAdapter>();
+        foreach (var f in done)
+        {
+            finalresults.Add(new CloudDriveAdapter(f));
+        }
+        return finalresults;
     }
 
     private List<MetaData> FileGrabber(List<MetaData> results, List<MetaData> check)
@@ -113,13 +119,14 @@ public class DropBoxDownloader : ICloudDrive<MetaData>
         }
     }
 
-    public IEnumerable<MetaData> Search(string criteria)
+    public IEnumerable<CloudDriveAdapter> Search(string criteria)
     {
-        IEnumerable<MetaData> downloaded = Download();
+        IEnumerable<CloudDriveAdapter> downloaded = Download();
 
-        downloaded = downloaded.Where(x => x.Name.Contains(criteria) || x.Extension.Contains(criteria));
+        downloaded = downloaded.Where(x => x.Title.Contains(criteria) || x.Extension.Contains(criteria));
 
-        return downloaded;
+        List<CloudDriveAdapter> finalresults = new List<CloudDriveAdapter>();
+        return finalresults;
     }
 
     private static string UpperCaseUrlEncode(string s)
@@ -147,5 +154,15 @@ public class DropBoxDownloader : ICloudDrive<MetaData>
             data.Replace(character, values[character]);
         }
         return data.ToString();
+    }
+
+    IEnumerable<CloudDriveAdapter> ICloudDrive.Download()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerable<CloudDriveAdapter> ICloudDrive.Search(string criteria)
+    {
+        throw new NotImplementedException();
     }
 }

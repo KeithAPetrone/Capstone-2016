@@ -3,14 +3,12 @@ using System.Threading.Tasks;
 
 namespace OneBox.Models
 {
-    public interface ICloudDrive<T>
+    public interface ICloudDrive
     {
-        IEnumerable<T> Download();
+        IEnumerable<CloudDriveAdapter> Download();
 
         Task Upload(string fileName, string path);
 
-        IEnumerable<T> Search(string criteria);
-
-
+        IEnumerable<CloudDriveAdapter> Search(string criteria);
     }
 }
