@@ -1,18 +1,28 @@
-﻿using OneBox.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Google.Apis.Drive;
-using DropboxRestAPI.Models.Core;
+﻿using DropboxRestAPI.Models.Core;
+using Google.Apis.Drive.v2.Data;
 
 namespace OneBox.Models
 {
     public class CloudDriveAdapter
     {
-        public string Title(ICloudDrive<GoogleDriveDownloader> drive)
+        public CloudDriveAdapter(File file)
         {
-            return "";
+
+        }
+
+        public CloudDriveAdapter(MetaData file)
+        {
+
+        }
+
+        public string Title(File file)
+        {
+            return file.Title;
+        }
+
+        public string Title(MetaData file)
+        {
+            return file.Name;
         }
     }
 }
