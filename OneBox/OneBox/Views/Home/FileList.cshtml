@@ -8,7 +8,7 @@
 </head>
 <body>
     @{
-        IEnumerable<Google.Apis.Drive.v2.Data.File> googleList = (IEnumerable<Google.Apis.Drive.v2.Data.File>)TempData["GoogleResult"];
+        IEnumerable<OneBox.Models.CloudDriveAdapter> googleList = (IEnumerable<OneBox.Models.CloudDriveAdapter>)TempData["GoogleResult"];
         //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxList = (List<DropboxRestAPI.Models.Core.MetaData>)TempData["DropBoxResult"];
         //DropBoxDownloader d = (DropBoxDownloader)TempData["DropBoxDownloader"];
     }
