@@ -32,20 +32,15 @@ namespace OneBox.Controllers
         {
             ViewBag.Message = "Your file list page.";
 
-            ICloudDrive[] cloudDrives = new ICloudDrive[2];
+            List<ICloudDrive> cloudDrives = new List<ICloudDrive>()
+            {
+                new GoogleDriveDownloader(),
+                new DropBoxDownloader()
+            };
 
-            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new ICloudDrive();
-            //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
+            TempData["GoogleResult"] = cloudDrives[0].Download();
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Download();
-            TempData["GoogleResult"] = googleresults;
-
-            //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Download();
-            //TempData["DropBoxResult"] = dropboxresults;
-
-            //TempData["DropBoxDownloader"] = d;
-
-            new BackgroundSync(new System.TimeSpan(0, 0, 20, 0, 0), new System.TimeSpan(0, 5, 20, 0, 0), g);
+            new BackgroundSync(new System.TimeSpan(0, 0, 20, 0, 0), new System.TimeSpan(0, 5, 20, 0, 0), cloudDrives[0]);
 
             return View();
         }
@@ -53,16 +48,20 @@ namespace OneBox.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
-            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
-            ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
+            List<ICloudDrive> cloudDrives = new List<ICloudDrive>()
+            {
+                new GoogleDriveDownloader(),
+                new DropBoxDownloader()
+            };
 
             var fileName = Path.GetFileName(file.FileName);
             var path = "C:/TempFiles/" + fileName;
             file.SaveAs(Path.Combine(@"C:/TempFiles", fileName));
 
-            await g.Upload(fileName, path);
-
-            await d.Upload(fileName, path);
+            foreach (ICloudDrive cd in cloudDrives)
+            {
+                await cd.Upload(fileName, path);
+            }
 
             return Redirect("FileList");
         }
@@ -71,16 +70,13 @@ namespace OneBox.Controllers
         [HttpPost]
         public ActionResult FileList(string search)
         {
-            ICloudDrive<Google.Apis.Drive.v2.Data.File> g = new GoogleDriveDownloader();
-            //ICloudDrive<DropboxRestAPI.Models.Core.MetaData> d = new DropBoxDownloader();
+            List<ICloudDrive> cloudDrives = new List<ICloudDrive>()
+            {
+                new GoogleDriveDownloader(),
+                new DropBoxDownloader()
+            };
 
-            IEnumerable<Google.Apis.Drive.v2.Data.File> googleresults = g.Search(search);
-            TempData["GoogleResult"] = googleresults;
-
-            //IEnumerable<DropboxRestAPI.Models.Core.MetaData> dropboxresults = d.Search(search);
-            //TempData["DropBoxResult"] = googleresults;
-
-            //TempData["DropBoxDownloader"] = d;
+            TempData["GoogleResult"] = cloudDrives[0].Search(search);
 
             return View();
         }

@@ -13,7 +13,7 @@ namespace OneBox.Models
     {
         GoogleDriveDownloader g;
 
-        public BackgroundSync(TimeSpan interval, TimeSpan timeout, ICloudDrive<File> g) : base("Background Synchronization", interval, timeout)
+        public BackgroundSync(TimeSpan interval, TimeSpan timeout, ICloudDrive g) : base("Background Synchronization", interval, timeout)
         {
             this.g = (GoogleDriveDownloader)g;
         }
