@@ -5,24 +5,34 @@ namespace OneBox.Models
 {
     public class CloudDriveAdapter
     {
+        File googleFile = null;
+        MetaData dropboxFile = null;
+
+
         public CloudDriveAdapter(File file)
         {
-
+            this.googleFile = file;
         }
 
         public CloudDriveAdapter(MetaData file)
         {
-
+            this.dropboxFile = file;
         }
 
-        public string Title(File file)
+        public string Title()
         {
-            return file.Title;
-        }
-
-        public string Title(MetaData file)
-        {
-            return file.Name;
+            if (googleFile != null)
+            {
+                return googleFile.Title;
+            }
+            else if (dropboxFile != null)
+            {
+                return dropboxFile.Name;
+            }
+            else
+            {
+                return "No File Here";
+            }
         }
     }
 }
