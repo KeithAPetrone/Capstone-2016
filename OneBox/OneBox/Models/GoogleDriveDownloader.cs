@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
 
 public class GoogleDriveDownloader : ICloudDrive<Google.Apis.Drive.v2.Data.File>
 {
