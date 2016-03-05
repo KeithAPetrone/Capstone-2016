@@ -54,7 +54,7 @@ public class GoogleDriveDownloader : ICloudDrive
         FilesResource.ListRequest listRequest = service.Files.List();
         FileList files = listRequest.Execute();
         IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
-        daFiles = daFiles.Where(x => x.Title.Contains(criteria) || (x.FileExtension != null && x.FileExtension.Contains(criteria))).ToList();
+        daFiles = daFiles.Where(x => x.Title.ToLower().Contains(criteria.ToLower()) || (x.FileExtension != null && x.FileExtension.ToLower().Contains(criteria.ToLower()))).ToList();
         List<CloudDriveAdapter> results = new List<CloudDriveAdapter>();
         foreach (var f in daFiles)
         {

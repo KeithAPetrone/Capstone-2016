@@ -4,6 +4,7 @@
     font-family: fantasy;
     width: auto;
     overflow-x: hidden;
+    overflow-wrap: break-word;
 }
  
 .navbar-header {

@@ -123,7 +123,7 @@ public class DropBoxDownloader : ICloudDrive
     {
         IEnumerable<CloudDriveAdapter> downloaded = Download();
 
-        downloaded = downloaded.Where(x => x.Title.Contains(criteria) || x.Extension.Contains(criteria));
+        downloaded = downloaded.Where(x => x.Title.ToLower().Contains(criteria.ToLower()) || x.Extension.ToLower().Contains(criteria.ToLower()));
 
         List<CloudDriveAdapter> finalresults = new List<CloudDriveAdapter>();
         return finalresults;
