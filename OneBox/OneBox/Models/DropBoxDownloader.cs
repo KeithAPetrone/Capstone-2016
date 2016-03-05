@@ -29,7 +29,7 @@ public class DropBoxDownloader : ICloudDrive
             AccessToken = accessToken,
             RedirectUri = "https://www.dropbox.com/1/oauth2/authorize"
         };
-        
+
         // Initialize a new Client (without an AccessToken)
         client = new Client(options);
     }

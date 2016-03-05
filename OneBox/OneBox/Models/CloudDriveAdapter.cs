@@ -13,7 +13,7 @@ namespace OneBox.Models
         public string ThumbnailLink { get; }
         public string AlternateLink { get; }
 
-        
+
         public CloudDriveAdapter(File file)
         {
             this.googleFile = file;

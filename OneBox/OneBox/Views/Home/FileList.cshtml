@@ -64,43 +64,43 @@
                                 }
                             </li>
 
-                                    }
+                        }
                     }
 
                 </ul>
-                                    }
-                                    catch (ArgumentNullException e) { }
+            }
+            catch (ArgumentNullException e) { }
         }
 
     </div>
 
     @*<br /><br /><p>Your DropBox files:</p>
-    <table border="1">
-        @{
-            try
-            {
-                for (int i = 0; i < dropboxList.Count(); i++)
-                {
-                    <tr>
-                        @{
-                            for (int j = 0; j < 5 && i < dropboxList.Count(); j++)
-                            {
-                                <td>
-                                    <p>@dropboxList.ElementAt(i).Name</p>
-                                    <a href="" onclick="@{ var tempFile = @"C:\Users\OneBox\Downloads\" + dropboxList.ElementAt(i).Name;
-using (var fileStream = System.IO.File.OpenWrite(tempFile))
-{
-d.client.Core.Metadata.FilesAsync(dropboxList.ElementAt(i).path, fileStream);
-} }">Download here!</a>
-                                    @{ i++; }
-                                </td>
-                                        }
-                        }
-                    </tr>
-                                            }
-                                        }
-                                        catch (ArgumentNullException e) { }
-        }
-    </table>*@
+            <table border="1">
+                @{
+                    try
+                    {
+                        for (int i = 0; i < dropboxList.Count(); i++)
+                        {
+                            <tr>
+                                @{
+                                    for (int j = 0; j < 5 && i < dropboxList.Count(); j++)
+                                    {
+                                        <td>
+                                            <p>@dropboxList.ElementAt(i).Name</p>
+                                            <a href="" onclick="@{ var tempFile = @"C:\Users\OneBox\Downloads\" + dropboxList.ElementAt(i).Name;
+        using (var fileStream = System.IO.File.OpenWrite(tempFile))
+        {
+        d.client.Core.Metadata.FilesAsync(dropboxList.ElementAt(i).path, fileStream);
+        } }">Download here!</a>
+                                            @{ i++; }
+                                        </td>
+                                                }
+                                }
+                            </tr>
+                                                    }
+                                                }
+                                                catch (ArgumentNullException e) { }
+                }
+            </table>*@
 </body>
 </html>

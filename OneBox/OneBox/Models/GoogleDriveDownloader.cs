@@ -133,7 +133,7 @@ public class GoogleDriveDownloader : ICloudDrive
                 {
                     fileStream.CopyTo(mem);
                     await g.Upload(file.Name, file.path);
-                }          
+                }
             }
         }
     }
