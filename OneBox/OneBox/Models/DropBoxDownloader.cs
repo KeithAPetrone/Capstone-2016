@@ -155,14 +155,4 @@ public class DropBoxDownloader : ICloudDrive
         }
         return data.ToString();
     }
-
-    IEnumerable<CloudDriveAdapter> ICloudDrive.Download()
-    {
-        throw new NotImplementedException();
-    }
-
-    IEnumerable<CloudDriveAdapter> ICloudDrive.Search(string criteria)
-    {
-        throw new NotImplementedException();
-    }
 }
