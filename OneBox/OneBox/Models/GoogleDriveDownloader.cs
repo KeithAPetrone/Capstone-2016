@@ -39,16 +39,23 @@ public class GoogleDriveDownloader : ICloudDrive
 
     public IEnumerable<CloudDriveAdapter> Download()
     {
-        // Request the files
-        FilesResource.ListRequest listRequest = service.Files.List();
-        FileList files = listRequest.Execute();
-        IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
-        List<CloudDriveAdapter> results = new List<CloudDriveAdapter>();
-        foreach (var f in daFiles)
+        try
         {
-            results.Add(new CloudDriveAdapter(f));
+            // Request the files
+            FilesResource.ListRequest listRequest = service.Files.List();
+            FileList files = listRequest.Execute();
+            IEnumerable<Google.Apis.Drive.v2.Data.File> daFiles = files.Items;
+            List<CloudDriveAdapter> results = new List<CloudDriveAdapter>();
+            foreach (var f in daFiles)
+            {
+                results.Add(new CloudDriveAdapter(f));
+            }
+            return results;
         }
-        return results;
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public IEnumerable<CloudDriveAdapter> Search(string criteria)
